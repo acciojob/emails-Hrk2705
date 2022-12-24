@@ -7,7 +7,7 @@ import java.time.LocalTime;
 public class Main {
     public static void main(String[] args) throws ParseException {
         Email email = new Email("accio@gmail.com");
-        email.changePassword("Accio@123", "V12@");
+        email.changePassword("Accio@123", "V12abcdef");
         email.changePassword("Acio@123", "V12@v");
         email.changePassword("Accio@123", "V12@v123");
 

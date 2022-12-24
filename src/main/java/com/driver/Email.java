@@ -11,11 +11,11 @@ public class Email {
     }
 
     public String getEmailId() {
-        return emailId;
+        return this.emailId;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void changePassword(String oldPassword, String newPassword){
@@ -39,8 +39,18 @@ public class Email {
                 else if(ch >= '0' && ch <= '9') countDigit++;
                 else countSpecial++;
             }
-            if(countDigit > 0 || countLower > 0 || countSpecial > 0 || countUpper > 0)
+            if(countDigit > 0 && countLower > 0 && countSpecial > 0 && countUpper > 0) {
                 this.password = newPassword;
+                System.out.println("Successfully  changed");
+            }
+            else
+            {
+                System.out.println("Not possible");
+            }
+        }
+        else
+        {
+            System.out.println("Not possible");
         }
 
     }

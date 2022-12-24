@@ -34,11 +34,11 @@ public class Gmail extends Email {
             ArrayList<String> v = value.remove(value.size() - 1);
 
             ArrayList<ArrayList<String>> a = new ArrayList<>();
-            if(trash.containsKey(key)) {
+            if(this.trash.containsKey(key)) {
                 this.trash.remove(key);
-                a = trash.get(key);
+                a = this.trash.get(key);
             }
-            a.add(new ArrayList<String>(v));
+            a.add(new ArrayList<>(v));
             this.trash.put(key, a);
 
             if(date.equals(key))
@@ -67,7 +67,7 @@ public class Gmail extends Email {
         else
         {
             ArrayList<ArrayList<String>> a = new ArrayList<>();
-            a.add(new ArrayList<String>());
+            a.add(new ArrayList<>());
             a.get(0).add(message);
             a.get(0).add(sender);
             this.inbox.put(date, a);
