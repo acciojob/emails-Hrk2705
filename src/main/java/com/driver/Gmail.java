@@ -29,9 +29,9 @@ public class Gmail extends Email {
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
         if(this.countInbox == this.inboxCapacity)
         {
-            Date key = this.inbox.lastKey();
+            Date key = this.inbox.firstKey();
             ArrayList<ArrayList<String>> value = this.inbox.get(key);
-            ArrayList<String> v = value.remove(value.size() - 1);
+            ArrayList<String> v = value.remove(0);
 
             ArrayList<ArrayList<String>> a = new ArrayList<>();
             if(this.trash.containsKey(key)) {
@@ -41,20 +41,24 @@ public class Gmail extends Email {
             a.add(new ArrayList<>(v));
             this.trash.put(key, a);
 
-            if(date.equals(key))
-            {
+            if(value.size() == 0)
                 this.inbox.remove(key);
+            else
+                this.inbox.put(key, value);
+
+            if(this.inbox.containsKey(date))
+            {
+                ArrayList<ArrayList<String>> b = this.inbox.get(date);
                 ArrayList<String> s = new ArrayList<>();
                 s.add(message);
                 s.add(sender);
-                value.add(new ArrayList<>());
-                value.add(s);
-                this.inbox.put(date, value);
+                b.add(new ArrayList<>());
+                b.add(s);
+                this.inbox.put(date, b);
             }
+
             else
             {
-                if(this.inbox.get(key).size() > 1)
-                    this.inbox.put(key, value);
                 ArrayList<ArrayList<String>> b = new ArrayList<>();
                 ArrayList<String> s = new ArrayList<>();
                 s.add(message);
@@ -66,11 +70,25 @@ public class Gmail extends Email {
         }
         else
         {
-            ArrayList<ArrayList<String>> a = new ArrayList<>();
-            a.add(new ArrayList<>());
-            a.get(0).add(message);
-            a.get(0).add(sender);
-            this.inbox.put(date, a);
+            if(this.inbox.containsKey(date))
+            {
+                ArrayList<ArrayList<String>> value = this.inbox.get(date);
+                this.inbox.remove(date);
+                ArrayList<String> v = new ArrayList<>();
+                v.add(message);
+                v.add(sender);
+                value.add(v);
+                this.inbox.put(date, value);
+            }
+            else
+            {
+                ArrayList<ArrayList<String>> a = new ArrayList<>();
+                ArrayList<String> value = new ArrayList<>();
+                value.add(message);
+                value.add(sender);
+                a.add(value);
+                this.inbox.put(date, a);
+            }
             this.countInbox++;
         }
     }
