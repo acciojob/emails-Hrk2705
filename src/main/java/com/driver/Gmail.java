@@ -127,7 +127,7 @@ public class Gmail extends Email {
         if(this.inbox.size() == 0)
             return null;
 
-        Date date = this.inbox.firstKey();
+        Date date = this.inbox.lastKey();
         ArrayList<ArrayList<String>> value = this.inbox.get(date);
         ArrayList<String> message = value.get(value.size() - 1);
 
@@ -140,9 +140,9 @@ public class Gmail extends Email {
         if(this.inbox.size() == 0)
             return null;
 
-        Date date = this.inbox.lastKey();
+        Date date = this.inbox.firstKey();
         ArrayList<ArrayList<String>> value = this.inbox.get(date);
-        ArrayList<String> message = value.get(value.size() - 1);
+        ArrayList<String> message = value.get(0);
 
         return message.get(message.size() - 2);
     }
@@ -152,12 +152,10 @@ public class Gmail extends Email {
         //It is guaranteed that start date <= end date
         int countMail = 0;
 
-        long startTime = start.getTime();
-        long endTime = end.getTime();
+
         for(Date d : this.inbox.keySet())
         {
-            long dateTime = d.getTime();
-            if(dateTime > startTime && dateTime <= endTime)
+            if(d.equals(start) || d.equals(end) || (d.before(end) && d.after(start)))
             {
                 ArrayList<ArrayList<String>> value = this.inbox.get(d);
                 countMail += value.size();
